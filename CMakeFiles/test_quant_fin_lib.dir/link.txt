@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_quant_fin_lib.dir/test/test_quant_fin_lib.cpp.o -o test_quant_fin_lib  -Wl,-rpath,/root/cpp-workspace/quant_fin_lib libquant_fin_lib.so.1.0 
