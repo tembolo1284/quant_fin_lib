@@ -1,4 +1,5 @@
 #include <cmath>
+#include "risk/greeks.h"
 
 // Delta
 double delta(double spot, double strike, double rate, double time, double volatility, int is_call) {

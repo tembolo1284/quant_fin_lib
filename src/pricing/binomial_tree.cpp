@@ -1,5 +1,6 @@
 #include <cmath>
 #include <vector>
+#include "pricing/monte_carlo.h"
 
 // Binomial Tree Pricing Model
 double binomial_tree_price(double spot, double strike, double rate, double time, double volatility, int steps, int is_call) {

@@ -1,6 +1,7 @@
 #include <vector>
 #include <stdexcept>
 #include <cmath>
+#include "yield_curve/interpolation.h"
 
 // Linear Interpolation
 double linear_interpolation(const std::vector<double>& x, const std::vector<double>& y, double target) {

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include "risk/var.h"
 
 // Inverse error function implementation
 double approximate_erfinv(double x) {

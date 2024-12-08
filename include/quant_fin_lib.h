@@ -38,53 +38,34 @@ QF_API int qf_is_compatible_dll(void);
 QF_API double qf_black_scholes_price(double spot, double strike, double rate, double time, double volatility, int is_call);
 
 // API for Binomial Tree pricing
-double qf_binomial_tree_price(double spot, double strike, double rate, double time, double volatility, int steps, int is_call);
+QF_API double qf_binomial_tree_price(double spot, double strike, double rate, double time, double volatility, int steps, int is_call);
 
 // API for Monte Carlo pricing
-double qf_monte_carlo_price(double spot, double strike, double rate, double time, double volatility, int num_simulations, int is_call);
+QF_API double qf_monte_carlo_price(double spot, double strike, double rate, double time, double volatility, int num_simulations, int is_call);
 
 // Risk Management
-double qf_historical_var(const double* returns, size_t size, double confidence_level);
-double qf_parametric_var(double mean, double std_dev, double confidence_level);
+QF_API double qf_historical_var(const double* returns, size_t size, double confidence_level);
+QF_API double qf_parametric_var(double mean, double std_dev, double confidence_level);
 
 // Yield Curve
-double qf_linear_interpolation(const double* x, const double* y, size_t size, double target);
+QF_API double qf_linear_interpolation(const double* x, const double* y, size_t size, double target);
 
 // Greeks
 
 // Delta
-double qf_delta(double spot, double strike, double rate, double time, double volatility, int is_call) {
-    double d1 = (std::log(spot / strike) + (rate + 0.5 * volatility * volatility) * time) / (volatility * std::sqrt(time));
-    return is_call ? std::exp(-rate * time) * d1 : std::exp(-rate * time) * (d1 - 1);
-}
+QF_API double qf_delta(double spot, double strike, double rate, double time, double volatility, int is_call);
 
 // Gamma
-double qf_gamma(double spot, double strike, double rate, double time, double volatility) {
-    double d1 = (std::log(spot / strike) + (rate + 0.5 * volatility * volatility) * time) / (volatility * std::sqrt(time));
-    return std::exp(-rate * time) / (spot * volatility * std::sqrt(time)) * d1;
-}
+QF_API double qf_gamma(double spot, double strike, double rate, double time, double volatility);
 
 // Vega
-double qf_vega(double spot, double strike, double rate, double time, double volatility) {
-    double d1 = (std::log(spot / strike) + (rate + 0.5 * volatility * volatility) * time) / (volatility * std::sqrt(time));
-    return spot * std::exp(-rate * time) * std::sqrt(time) * d1;
-}
+QF_API double qf_vega(double spot, double strike, double rate, double time, double volatility);
 
 // Theta
-double qf_theta(double spot, double strike, double rate, double time, double volatility, int is_call) {
-    double d1 = (std::log(spot / strike) + (rate + 0.5 * volatility * volatility) * time) / (volatility * std::sqrt(time));
-    double d2 = d1 - volatility * std::sqrt(time);
-    double term1 = -spot * std::exp(-rate * time) * d1 * volatility / (2 * std::sqrt(time));
-    double term2 = rate * strike * std::exp(-rate * time) * d2;
-    return is_call ? term1 - term2 : term1 + term2;
-}
+QF_API double qf_theta(double spot, double strike, double rate, double time, double volatility, int is_call);
 
 // Rho
-double qf_rho(double spot, double strike, double rate, double time, double volatility, int is_call) {
-    double d2 = (std::log(spot / strike) + (rate - 0.5 * volatility * volatility) * time) / (volatility * std::sqrt(time));
-    return is_call ? time * strike * std::exp(-rate * time) * d2 : -time * strike * std::exp(-rate * time) * d2;
-}
-
+QF_API double qf_rho(double spot, double strike, double rate, double time, double volatility, int is_call);
 
 #ifdef __cplusplus
 }

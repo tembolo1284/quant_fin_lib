@@ -5,6 +5,9 @@ project(quant_fin_lib VERSION 1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Add include directory for headers
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
 # Library sources
 set(LIB_SOURCES
     src/quant_fin_lib.cpp
@@ -19,7 +22,7 @@ set(LIB_SOURCES
 
 # Create shared library
 add_library(quant_fin_lib SHARED ${LIB_SOURCES})
-target_include_directories(quant_fin_lib PUBLIC include)
+target_include_directories(quant_fin_lib PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 # Copy shared library to Python bindings directory after build
 add_custom_command(
