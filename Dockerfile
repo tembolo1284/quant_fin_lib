@@ -5,14 +5,15 @@ RUN apt-get update && apt-get install -y \
     cmake \
     python3.10 \
     python3-pip \
-    curl
+    curl \
+    libgtest-dev \
+    ninja-build
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 COPY . .
-
-# Make scripts executable
 RUN chmod +x scripts/*
 
 CMD ["./scripts/build.sh"]

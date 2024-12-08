@@ -1,4 +1,3 @@
-# scripts/run-tests.sh
 #!/bin/bash
 cd build
 ./test_quant_fin_lib
