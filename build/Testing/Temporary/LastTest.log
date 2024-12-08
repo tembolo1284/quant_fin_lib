@@ -1,0 +1,36 @@
+Start testing: Dec 07 20:27 EST
+----------------------------------------------------------
+1/1 Testing: test_quant_fin_lib
+1/1 Test: test_quant_fin_lib
+Command: "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/test_quant_fin_lib"
+Directory: /home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build
+"test_quant_fin_lib" start time: Dec 07 20:27 EST
+Output:
+----------------------------------------------------------
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from QuantFinTest
+[ RUN      ] QuantFinTest.BlackScholes
+[       OK ] QuantFinTest.BlackScholes (0 ms)
+[ RUN      ] QuantFinTest.BinomialTree
+[       OK ] QuantFinTest.BinomialTree (1659 ms)
+[ RUN      ] QuantFinTest.MonteCarlo
+[       OK ] QuantFinTest.MonteCarlo (10 ms)
+[ RUN      ] QuantFinTest.ValueAtRisk
+[       OK ] QuantFinTest.ValueAtRisk (0 ms)
+[ RUN      ] QuantFinTest.Greeks
+[       OK ] QuantFinTest.Greeks (0 ms)
+[----------] 5 tests from QuantFinTest (1669 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (1669 ms total)
+[  PASSED  ] 5 tests.
+<end of output>
+Test time =   1.68 sec
+----------------------------------------------------------
+Test Passed.
+"test_quant_fin_lib" end time: Dec 07 20:27 EST
+"test_quant_fin_lib" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Dec 07 20:27 EST

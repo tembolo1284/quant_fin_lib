@@ -5,11 +5,12 @@ description = "Quantitative Finance Library for Python"
 authors = ["Paul Nikholas Lopez <nik.lopez381@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "quant_fin"}]
+packages = [{include = "python_bindings"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 cffi = "^1.15"
+pytest = "^7.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

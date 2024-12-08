@@ -1,8 +1,9 @@
 #include <cmath>
 #include "pricing/black_scholes.h"
+#include "quant_fin_lib.h"
 
 double norm_cdf(double x) {
-    return 0.5 * (1.0 + erf(x / std::sqrt(2.0)));
+    return 0.5 * (1 + erf(x / sqrt(2)));
 }
 
 double black_scholes_price(double spot, double strike, double rate, double time, double volatility, int is_call) {

@@ -29,7 +29,7 @@ TEST(QuantFinTest, BinomialTree) {
     double rate = 0.05;
     double time = 1;
     double volatility = 0.2;
-    int steps = 100;
+    int steps = 10000;
 
     double call_price = qf_binomial_tree_price(spot, strike, rate, time, volatility, steps, 1);
     double put_price = qf_binomial_tree_price(spot, strike, rate, time, volatility, steps, 0);
