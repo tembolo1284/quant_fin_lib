@@ -1,48 +1,52 @@
 name: CI
-
 on:
- push:
-   branches: [ main ]
- pull_request:
-   branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
- build-and-test:
-   runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake python3-dev libgtest-dev ninja-build
+        # Build and install GTest
+        cd /usr/src/gtest
+        sudo cmake CMakeLists.txt
+        sudo make
+        sudo cp lib/*.a /usr/lib
+        cd ${GITHUB_WORKSPACE}
 
-   steps:
-   - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
 
-   - name: Install system dependencies
-     run: |
-       sudo apt-get update
-       sudo apt-get install -y build-essential cmake python3-dev
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
 
-   - name: Set up Python
-     uses: actions/setup-python@v2
-     with:
-       python-version: '3.10'
+    - name: Build C++ Library
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G Ninja
+        cmake --build .
 
-   - name: Install Poetry
-     run: |
-       curl -sSL https://install.python-poetry.org | python3 -
+    - name: Run C++ Tests
+      run: |
+        cd build
+        ./test_quant_fin_lib
 
-   - name: Build C++ Library
-     run: |
-       mkdir build
-       cd build
-       cmake ..
-       cmake --build .
+    - name: Install Python Dependencies
+      run: poetry install
 
-   - name: Run C++ Tests
-     run: |
-       cd build
-       ./test_quant_fin_lib
-
-   - name: Install Python Dependencies
-     run: poetry install
-
-   - name: Run Python Tests
-     run: |
-       export PYTHONPATH=$PYTHONPATH:$(pwd)
-       poetry run pytest python_bindings/tests/
+    - name: Run Python Tests
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        poetry run pytest python_bindings/tests/
