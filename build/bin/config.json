@@ -1,0 +1,37 @@
+#ifndef QUANT_FIN_API_CONFIG_H
+#define QUANT_FIN_API_CONFIG_H
+
+#include <cstdint>
+#include <string>
+
+namespace quant_fin {
+namespace api {
+
+struct ServerConfig {
+    std::string address;
+    uint16_t port;
+    uint32_t num_threads;
+    bool use_ssl;
+    std::string cert_file;
+    std::string key_file;
+
+    // Constructor with default values
+    ServerConfig(
+        const std::string& addr = "0.0.0.0",
+        uint16_t p = 8080,
+        uint32_t threads = 1,
+        bool ssl = false,
+        const std::string& cert = "",
+        const std::string& key = ""
+    ) : address(addr),
+        port(p),
+        num_threads(threads),
+        use_ssl(ssl),
+        cert_file(cert),
+        key_file(key) {}
+};
+
+} // namespace api
+} // namespace quant_fin
+
+#endif // QUANT_FIN_API_CONFIG_H
