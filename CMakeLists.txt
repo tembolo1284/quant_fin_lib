@@ -37,16 +37,16 @@ set(LIB_SOURCES
 add_library(quant_fin_lib SHARED ${LIB_SOURCES})
 
 # Set include directories properly for installation
-target_include_directories(quant_fin_lib 
-    PUBLIC 
+target_include_directories(quant_fin_lib
+    PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(quant_fin_lib 
-    PRIVATE 
+target_link_libraries(quant_fin_lib
+    PRIVATE
         spdlog::spdlog
 )
 
@@ -59,6 +59,7 @@ set_target_properties(quant_fin_lib PROPERTIES
 # Copy shared library to Python bindings directory after build
 add_custom_command(
     TARGET quant_fin_lib POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/python_bindings
     COMMAND ${CMAKE_COMMAND} -E copy
         $<TARGET_FILE:quant_fin_lib>
         ${CMAKE_SOURCE_DIR}/python_bindings/
@@ -66,8 +67,8 @@ add_custom_command(
 
 # Add main executable
 add_executable(quant_fin_main main.cpp)
-target_link_libraries(quant_fin_main 
-    PRIVATE 
+target_link_libraries(quant_fin_main
+    PRIVATE
         quant_fin_lib
 )
 
@@ -75,11 +76,16 @@ target_link_libraries(quant_fin_main
 add_custom_target(run_main
     COMMAND quant_fin_main
     DEPENDS quant_fin_main
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
 
 # API Component
 if(BUILD_API)
+    # First verify config.json exists
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/config.json")
+        message(FATAL_ERROR "api/config.json not found. Please create it first.")
+    endif()
+
     # API sources
     set(API_SOURCES
         api/src/main.cpp
@@ -90,7 +96,7 @@ if(BUILD_API)
 
     # Create API executable
     add_executable(api_server ${API_SOURCES})
-    
+
     target_include_directories(api_server
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/api/include
@@ -105,18 +111,22 @@ if(BUILD_API)
             spdlog::spdlog
     )
 
-    # Copy API config file to build directory
-    configure_file(
-        ${CMAKE_SOURCE_DIR}/api/config.json
-        ${CMAKE_BINARY_DIR}/bin/config.json
-        COPYONLY
+    # Create directories and copy config at build time
+    add_custom_target(api_dirs ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/logs
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/public
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/api/config.json
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config.json
     )
+    add_dependencies(api_server api_dirs)
 
     # Add custom target to run the API server
     add_custom_target(run_api
         COMMAND api_server
         DEPENDS api_server
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     )
 endif()
 
@@ -140,7 +150,7 @@ target_link_libraries(test_quant_fin_lib
 add_test(
     NAME test_quant_fin_lib
     COMMAND test_quant_fin_lib
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
 
 # Create a CMake configuration file
@@ -181,40 +191,11 @@ install(EXPORT quant_fin_lib-targets
 )
 
 # CMake best practice: Add uninstall target
-# This provides a way to cleanly remove installed files using `make uninstall`
-# It's not provided by CMake by default but is a common convention in CMake projects
 if(NOT TARGET uninstall)
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in")
-        file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-             [=[
-if(NOT EXISTS "@CMAKE_BINARY_DIR@/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: @CMAKE_BINARY_DIR@/install_manifest.txt")
-endif()
-
-file(READ "@CMAKE_BINARY_DIR@/install_manifest.txt" files)
-string(REGEX REPLACE "\n" ";" files "${files}")
-foreach(file ${files})
-  message(STATUS "Uninstalling $ENV{DESTDIR}${file}")
-  if(IS_SYMLINK "$ENV{DESTDIR}${file}" OR EXISTS "$ENV{DESTDIR}${file}")
-    exec_program(
-      "@CMAKE_COMMAND@" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
-      OUTPUT_VARIABLE rm_out
-      RETURN_VALUE rm_retval
-      )
-    if(NOT "${rm_retval}" STREQUAL 0)
-      message(FATAL_ERROR "Problem when removing $ENV{DESTDIR}${file}")
-    endif()
-  else(IS_SYMLINK "$ENV{DESTDIR}${file}" OR EXISTS "$ENV{DESTDIR}${file}")
-    message(STATUS "File $ENV{DESTDIR}${file} does not exist.")
-  endif()
-endforeach(file)
-]=])
-    endif()
-
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-        IMMEDIATE @ONLY
+        @ONLY
     )
 
     add_custom_target(uninstall

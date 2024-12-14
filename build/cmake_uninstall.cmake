@@ -1,8 +1,8 @@
-if(NOT EXISTS "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: /home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/install_manifest.txt")
+if(NOT EXISTS "/root/cpp-workspace/quant_fin_lib/build/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: /root/cpp-workspace/quant_fin_lib/build/install_manifest.txt")
 endif()
 
-file(READ "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/install_manifest.txt" files)
+file(READ "/root/cpp-workspace/quant_fin_lib/build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

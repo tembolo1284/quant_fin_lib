@@ -1,4 +1,4 @@
-# Install script for directory: /home/tembolo381/Desktop/cpp-workspace/quant_fin_lib
+# Install script for directory: /root/cpp-workspace/quant_fin_lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -55,8 +55,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES
-    "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so.1.0"
-    "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so.1"
+    "/root/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so.1.0"
+    "/root/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so.1"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libquant_fin_lib.so.1.0"
@@ -78,7 +78,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libquant_fin_lib.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/root/cpp-workspace/quant_fin_lib/build/lib/libquant_fin_lib.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libquant_fin_lib.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libquant_fin_lib.so")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -88,7 +88,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/include/" FILES_MATCHING REGEX "/[^/]*\\.h$")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/root/cpp-workspace/quant_fin_lib/include/" FILES_MATCHING REGEX "/[^/]*\\.h$")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -98,12 +98,12 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/api_server"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/bin/api_server")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/root/cpp-workspace/quant_fin_lib/build/bin/api_server")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/api_server" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/api_server")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/api_server"
-         OLD_RPATH "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/lib:/usr/local/lib:"
+         OLD_RPATH "/root/cpp-workspace/quant_fin_lib/build/lib:/usr/local/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/api_server")
@@ -112,14 +112,14 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/quant_fin" TYPE FILE FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/api/config.json")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/quant_fin" TYPE FILE FILES "/root/cpp-workspace/quant_fin_lib/api/config.json")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake"
-         "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake")
+         "/root/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib/quant_fin_lib-targets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -128,9 +128,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib" TYPE FILE FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib" TYPE FILE FILES "/root/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib" TYPE FILE FILES "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets-noconfig.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/quant_fin_lib" TYPE FILE FILES "/root/cpp-workspace/quant_fin_lib/build/CMakeFiles/Export/lib/cmake/quant_fin_lib/quant_fin_lib-targets-noconfig.cmake")
   endif()
 endif()
 
@@ -142,5 +142,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/tembolo381/Desktop/cpp-workspace/quant_fin_lib/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/root/cpp-workspace/quant_fin_lib/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
