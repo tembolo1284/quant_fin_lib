@@ -1,4 +1,0 @@
-[2024-12-13 19:24:01.569] [API] [info] [4151] Starting Quantitative Finance API server
-[2024-12-13 19:24:01.569] [API] [info] [4151] Server configuration loaded successfully
-[2024-12-13 19:24:42.138] [API] [info] [4160] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
-[2024-12-13 19:24:42.138] [API] [info] [4160] Black-Scholes calculation completed. Result: 10.450583572185565

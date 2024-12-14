@@ -1,0 +1,8 @@
+[2024-12-14 01:20:43.125] [API] [info] [1] Starting Quantitative Finance API server
+[2024-12-14 01:20:43.125] [API] [info] [1] Server configuration loaded successfully
+[2024-12-14 01:21:35.468] [API] [info] [37] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-14 01:21:35.468] [API] [info] [37] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-14 01:21:48.271] [API] [info] [33] Calculating Monte Carlo price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true, sims=10000, steps=252
+[2024-12-14 01:21:48.421] [API] [info] [33] Monte Carlo calculation completed. Result: 10.429468753252843
+[2024-12-14 01:22:03.995] [API] [info] [26] Calculating Binomial Tree price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true, steps=100
+[2024-12-14 01:22:03.995] [API] [info] [26] Binomial Tree calculation completed. Result: 12.162284964623943

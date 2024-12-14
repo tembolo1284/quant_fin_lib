@@ -123,27 +123,27 @@ price = black_scholes_price(100, 100, 0.05, 1, 0.2, 1)
 
 The API server runs on port 8080 by default and provides the following endpoints:
 
-#### Black-Scholes Pricing
-```bash
-POST /api/v1/pricing/black-scholes
-Content-Type: application/json
+#### Testing API Endpoints with curl
 
-{
+Test Black-Scholes pricing:
+```bash
+curl -X POST http://localhost:8080/api/v1/pricing/black-scholes \
+  -H "Content-Type: application/json" \
+  -d '{
     "spot_price": 100.0,
     "strike_price": 100.0,
     "risk_free_rate": 0.05,
     "time_to_maturity": 1.0,
     "volatility": 0.2,
     "is_call": true
-}
+  }'
 ```
 
-#### Monte Carlo Simulation
+Test Monte Carlo simulation:
 ```bash
-POST /api/v1/pricing/monte-carlo
-Content-Type: application/json
-
-{
+curl -X POST http://localhost:8080/api/v1/pricing/monte-carlo \
+  -H "Content-Type: application/json" \
+  -d '{
     "spot_price": 100.0,
     "strike_price": 100.0,
     "risk_free_rate": 0.05,
@@ -152,15 +152,14 @@ Content-Type: application/json
     "is_call": true,
     "num_simulations": 10000,
     "num_steps": 252
-}
+  }'
 ```
 
-#### Binomial Tree Pricing
+Test Binomial Tree calculation:
 ```bash
-POST /api/v1/pricing/binomial-tree
-Content-Type: application/json
-
-{
+curl -X POST http://localhost:8080/api/v1/pricing/binomial-tree \
+  -H "Content-Type: application/json" \
+  -d '{
     "spot_price": 100.0,
     "strike_price": 100.0,
     "risk_free_rate": 0.05,
@@ -168,10 +167,10 @@ Content-Type: application/json
     "volatility": 0.2,
     "is_call": true,
     "num_steps": 100
-}
+  }'
 ```
 
-All API endpoints return JSON responses in the following format:
+Sample successful response:
 ```json
 {
     "success": true,
@@ -179,19 +178,110 @@ All API endpoints return JSON responses in the following format:
     "data": {
         "price": 10.45,
         "input_params": {
-            // Echo of input parameters
+            "spot_price": 100.0,
+            "strike_price": 100.0,
+            "risk_free_rate": 0.05,
+            "time_to_maturity": 1.0,
+            "volatility": 0.2,
+            "is_call": true
         }
     }
 }
 ```
 
-Error responses follow this format:
+Sample error response:
 ```json
 {
     "success": false,
     "message": "Error description",
     "data": null
 }
+```
+
+### Docker Support
+
+The project includes comprehensive Docker support through the `docker-run.sh` script, which provides several commands for building, testing, and running the project.
+
+#### Docker Script Usage
+
+```bash
+./docker-run.sh [command] [options]
+```
+
+Available commands:
+
+1. **Build Commands:**
+```bash
+# Build the entire project
+./docker-run.sh build
+
+# Build with API support explicitly
+./docker-run.sh build-api
+```
+
+2. **Run Commands:**
+```bash
+# Run C++ executable
+./docker-run.sh run cpp
+
+# Run Python example
+./docker-run.sh run python
+
+# Run API server
+./docker-run.sh run api
+
+# Run all components
+./docker-run.sh run all
+```
+
+3. **Test Commands:**
+```bash
+# Run all tests
+./docker-run.sh test
+```
+
+4. **Clean Commands:**
+```bash
+# Clean build artifacts and Docker cache
+./docker-run.sh clean
+```
+
+#### Docker Development Workflow
+
+1. Initial setup:
+```bash
+# Build the project
+./docker-run.sh build
+
+# Give execution permissions to scripts (if needed)
+chmod +x scripts/*
+```
+
+2. Development cycle:
+```bash
+# Make changes to code
+
+# Rebuild and run tests
+./docker-run.sh build
+./docker-run.sh test
+
+# Run specific component
+./docker-run.sh run [cpp|python|api]
+```
+
+3. API Development:
+```bash
+# Build and run API server
+./docker-run.sh run api
+
+# Test endpoints using curl commands (in another terminal)
+# Use curl commands provided in the API Testing section above
+```
+
+4. Cleanup:
+```bash
+# Clean all build artifacts and Docker cache
+./docker-run.sh clean
 ```
 
 ## Configuration

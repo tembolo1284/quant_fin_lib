@@ -1,4 +1,5 @@
 #!/bin/bash
+
 case $1 in
   build)
     docker build -t quant-fin .
@@ -17,19 +18,35 @@ case $1 in
   run)
     case $2 in
       cpp)
-        docker run -v $(pwd):/app quant-fin bash -c "cd /app && cmake -B build -G Ninja && cmake --build build && ./build/quant_fin_main"
+        docker run -v $(pwd):/app quant-fin bash -c "cd /app && cmake -B build -G Ninja && cmake --build build && ./build/bin/quant_fin_main"
         ;;
       python)
         docker run -v $(pwd):/app quant-fin bash -c "cd /app && poetry run python python_bindings/main.py"
         ;;
+      api)
+        docker run -v $(pwd):/app -p 8080:8080 quant-fin bash -c "cd /app && cmake -B build -G Ninja && cmake --build build && ./build/bin/api_server"
+        ;;
+      all)
+        echo "Building and running all components..."
+        docker run -v $(pwd):/app -p 8080:8080 quant-fin bash -c "cd /app && \
+          cmake -B build -G Ninja && \
+          cmake --build build && \
+          ./build/bin/api_server"
+        ;;
       *)
-        echo "Usage: ./docker-run.sh run [cpp|python]"
+        echo "Usage: ./docker-run.sh run [cpp|python|api|all]"
         exit 1
         ;;
     esac
     ;;
+  build-api)
+    docker run -v $(pwd):/app quant-fin bash -c "\
+      cd /app && \
+      cmake -B build -G Ninja -DBUILD_API=ON && \
+      cmake --build build"
+    ;;
   *)
-    echo "Usage: ./docker-run.sh [build|test|clean|run cpp|run python]"
+    echo "Usage: ./docker-run.sh [build|build-api|test|clean|run cpp|run python|run api|run all]"
     exit 1
     ;;
 esac
