@@ -10,7 +10,8 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     - name: Install system dependencies
       run: |
@@ -63,22 +64,27 @@ jobs:
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
 
-    - name: Build C++ Library and API
+    - name: Clean build directory
       run: |
-        mkdir -p build/bin build/lib
+        rm -rf build
+        mkdir -p build
+
+    - name: Configure CMake
+      run: |
         cmake -B build -G Ninja
-        cmake --build build
+
+    - name: Build Project
+      working-directory: ${{github.workspace}}
+      run: cmake --build build
 
     - name: Run C++ Tests
-      run: |
-        cd build/bin
-        ./test_quant_fin_lib
-        cd ../..
+      working-directory: ${{github.workspace}}/build/bin
+      run: ./test_quant_fin_lib
 
     - name: Install Python Dependencies
       run: poetry install
 
     - name: Run Python Tests
       run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        export PYTHONPATH=${{github.workspace}}
         poetry run pytest python_bindings/tests/
