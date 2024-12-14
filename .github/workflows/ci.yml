@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [ main ]
@@ -10,16 +11,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake python3-dev libgtest-dev ninja-build
-        # Build and install GTest
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          python3-dev \
+          libgtest-dev \
+          ninja-build \
+          pkg-config \
+          git \
+          libspdlog-dev \
+          libjsoncpp-dev \
+          uuid-dev \
+          openssl \
+          libssl-dev \
+          zlib1g-dev \
+          postgresql-server-dev-all \
+          libc-ares-dev \
+          libcurl4-openssl-dev \
+          libboost-all-dev
+
+    - name: Build and Install GTest
+      run: |
         cd /usr/src/gtest
         sudo cmake CMakeLists.txt
         sudo make
         sudo cp lib/*.a /usr/lib
+        cd ${GITHUB_WORKSPACE}
+
+    - name: Install Drogon
+      run: |
+        git clone https://github.com/drogonframework/drogon
+        cd drogon
+        git checkout v1.8.7
+        git submodule update --init
+        mkdir build && cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        make -j$(nproc)
+        sudo make install
+        sudo ldconfig
         cd ${GITHUB_WORKSPACE}
 
     - name: Set up Python
@@ -31,17 +64,19 @@ jobs:
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
 
-    - name: Build C++ Library
+    - name: Build C++ Library and API
       run: |
-        mkdir build
+        mkdir -p build
         cd build
         cmake .. -G Ninja
         cmake --build .
+        cd ..
 
     - name: Run C++ Tests
       run: |
         cd build
-        ./test_quant_fin_lib
+        ./bin/test_quant_fin_lib
+        cd ..
 
     - name: Install Python Dependencies
       run: poetry install
@@ -50,3 +85,8 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         poetry run pytest python_bindings/tests/
+
+    - name: Test API Server Start
+      run: |
+        cd build/bin
+        timeout 10s ./api_server || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
