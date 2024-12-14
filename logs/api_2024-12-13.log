@@ -1,2 +1,4 @@
 [2024-12-13 19:14:42.555] [API] [info] [4070] Starting Quantitative Finance API server
 [2024-12-13 19:14:42.555] [API] [critical] [4070] Fatal error during server startup: Config file config.json not found!
+[2024-12-13 19:22:17.509] [API] [info] [4112] Starting Quantitative Finance API server
+[2024-12-13 19:22:17.509] [API] [critical] [4112] Fatal error during server startup: Config file config.json not found!

@@ -21,3 +21,9 @@
 15	1887	1734135254427451952	CMakeFiles/api_server.dir/api/src/controllers/PricingController.cpp.o	1e5bcff3d7efcce0
 15	2013	1734135254547451954	CMakeFiles/api_server.dir/api/src/main.cpp.o	bd3f9cf757379889
 2013	2165	1734135254707451957	bin/api_server	3b17178e2b87372d
+1	11	0	CMakeFiles/api_dirs	b21ef11f161aa201
+1	11	0	/root/cpp-workspace/quant_fin_lib/build/CMakeFiles/api_dirs	b21ef11f161aa201
+0	10	0	CMakeFiles/api_dirs	b21ef11f161aa201
+0	10	0	/root/cpp-workspace/quant_fin_lib/build/CMakeFiles/api_dirs	b21ef11f161aa201
+10	1871	1734135836007463044	CMakeFiles/api_server.dir/api/src/main.cpp.o	bd3f9cf757379889
+1871	2022	1734135836157463047	bin/api_server	3b17178e2b87372d

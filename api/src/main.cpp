@@ -7,6 +7,10 @@
 
 int main() {
     try {
+        // Get the executable's directory
+        std::filesystem::path exe_path = std::filesystem::canonical("/proc/self/exe").parent_path();
+        std::filesystem::current_path(exe_path);
+        
         // Create logs directory if it doesn't exist
         std::filesystem::create_directories("logs");
         
@@ -15,16 +19,9 @@ int main() {
         
         API_LOG_INFO("Starting Quantitative Finance API server");
         API_LOG_DEBUG("Initializing server configuration");
-
-        // Configure server
-        drogon::app().loadConfigFile("config.json");
         
-        // Add filter and listener
-        drogon::app()
-            .setThreadNum(16)
-            .enableRunAsDaemon()
-            .enableRelaunchOnError()
-            .addListener("0.0.0.0", 8080);
+        // Load configuration
+        drogon::app().loadConfigFile("config.json");
 
         API_LOG_INFO("Server configuration loaded successfully");
         API_LOG_DEBUG("Starting server...");
