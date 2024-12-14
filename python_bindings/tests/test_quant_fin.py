@@ -11,7 +11,7 @@ def test_black_scholes_put():
     assert abs(price - 5.57) < 0.01
 
 def test_binomial_tree():
-    price = binomial_tree_price(100, 100, 0.05, 1, 0.2, 100, 1)
+    price = binomial_tree_price(100, 100, 0.05, 1, 0.2, 1, 100)
     assert abs(price - 10.45) < 0.1
 
 def test_monte_carlo():

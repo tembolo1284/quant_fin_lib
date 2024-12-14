@@ -23,8 +23,8 @@ lib = ffi.dlopen(lib_path)
 def black_scholes_price(spot, strike, rate, time, volatility, is_call):
     return lib.qf_black_scholes_price(spot, strike, rate, time, volatility, is_call)
 
-def binomial_tree_price(spot, strike, rate, time, volatility, steps, is_call):
-    return lib.qf_binomial_tree_price(spot, strike, rate, time, volatility, steps, is_call)
+def binomial_tree_price(spot, strike, rate, time, volatility, is_call, steps):
+    return lib.qf_binomial_tree_price(spot, strike, rate, time, volatility, is_call, steps)
 
 def monte_carlo_price(spot, strike, rate, time, volatility, num_simulations, is_call):
     return lib.qf_monte_carlo_price(spot, strike, rate, time, volatility, num_simulations, is_call)
