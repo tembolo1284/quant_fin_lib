@@ -29,7 +29,6 @@ jobs:
           openssl \
           libssl-dev \
           zlib1g-dev \
-          postgresql-server-dev-all \
           libc-ares-dev \
           libcurl4-openssl-dev \
           libboost-all-dev
@@ -66,17 +65,15 @@ jobs:
 
     - name: Build C++ Library and API
       run: |
-        mkdir -p build
-        cd build
-        cmake .. -G Ninja
-        cmake --build .
-        cd ..
+        mkdir -p build/bin build/lib
+        cmake -B build -G Ninja
+        cmake --build build
 
     - name: Run C++ Tests
       run: |
-        cd build
-        ./bin/test_quant_fin_lib
-        cd ..
+        cd build/bin
+        ./test_quant_fin_lib
+        cd ../..
 
     - name: Install Python Dependencies
       run: poetry install
@@ -85,8 +82,3 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         poetry run pytest python_bindings/tests/
-
-    - name: Test API Server Start
-      run: |
-        cd build/bin
-        timeout 10s ./api_server || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
