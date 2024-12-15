@@ -8,45 +8,32 @@ void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
                         drogon::FilterCallback&& fcb,
                         drogon::FilterChainCallback&& fccb) {
     API_LOG_DEBUG("Starting CORS filter for path: {} method: {}", req->getPath(), req->getMethodString());
-    API_LOG_DEBUG("Request headers:");
-    for (const auto& header : req->getHeaders()) {
-        API_LOG_DEBUG("  {}: {}", header.first, header.second);
-    }
-
+    
+    // Create response for CORS headers
+    auto resp = drogon::HttpResponse::newHttpResponse();
+    
     // Handle preflight OPTIONS request
     if (req->getMethodString() == "OPTIONS") {
         API_LOG_DEBUG("Processing OPTIONS preflight request");
-        auto resp = drogon::HttpResponse::newHttpResponse();
         
-        // Add CORS headers for preflight
+        // Essential CORS headers
         resp->addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         resp->addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        resp->addHeader("Access-Control-Allow-Headers", "*");
-        resp->addHeader("Access-Control-Max-Age", "3600");
+        resp->addHeader("Access-Control-Allow-Headers", "Content-Type");
         
-        // Set 200 OK status
+        // Set 200 OK status explicitly
         resp->setStatusCode(drogon::k200OK);
+        resp->setContentTypeCode(drogon::CT_TEXT_PLAIN);
         
-        API_LOG_DEBUG("Sending preflight response with headers:");
-        for (const auto& header : resp->getHeaders()) {
-            API_LOG_DEBUG("  {}: {}", header.first, header.second);
-        }
-        
+        // Send the response immediately for OPTIONS
         fcb(resp);
         return;
     }
 
-    // For actual request
-    API_LOG_DEBUG("Processing actual request");
+    // For non-OPTIONS requests
+    resp->addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     
-    // Continue with request chain and add CORS headers to the final response
-    auto modCallback = [fcb](const drogon::HttpResponsePtr& responsePtr) {
-        responsePtr->addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        responsePtr->addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        responsePtr->addHeader("Access-Control-Allow-Headers", "*");
-        fcb(responsePtr);
-    };
-
+    // Continue with the normal request chain
     fccb();
 }
 

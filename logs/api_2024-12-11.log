@@ -1,4 +1,0 @@
-[2024-12-11 20:17:09.904] [API] [info] [17447] Starting Quantitative Finance API server
-[2024-12-11 20:17:09.904] [API] [critical] [17447] Fatal error during server startup: Config file config.json not found!
-[2024-12-11 20:18:24.891] [API] [info] [17485] Starting Quantitative Finance API server
-[2024-12-11 20:18:24.891] [API] [critical] [17485] Fatal error during server startup: Config file config.json not found!
