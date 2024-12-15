@@ -1,0 +1,32 @@
+[2024-12-15 10:25:02.911] [API] [info] [966] Starting Quantitative Finance API server
+[2024-12-15 10:25:02.911] [API] [info] [966] Server configuration loaded successfully
+[2024-12-15 10:25:02.911] [API] [info] [966] Starting server on port 8080
+[2024-12-15 10:25:06.258] [API] [info] [973] Calculating Binomial Tree price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true, steps=100
+[2024-12-15 10:25:06.258] [API] [info] [973] Binomial Tree calculation completed. Result: 10.430611662249113
+[2024-12-15 10:33:57.983] [API] [info] [1255] Starting Quantitative Finance API server
+[2024-12-15 10:33:57.983] [API] [info] [1255] Server configuration loaded successfully
+[2024-12-15 10:33:57.983] [API] [info] [1255] Starting server on port 8080
+[2024-12-15 10:36:21.893] [API] [info] [1337] Starting Quantitative Finance API server
+[2024-12-15 10:36:21.893] [API] [info] [1337] Server configuration loaded successfully
+[2024-12-15 10:36:21.893] [API] [info] [1337] Starting server on port 8080
+[2024-12-15 10:38:05.830] [API] [info] [1398] Starting Quantitative Finance API server
+[2024-12-15 10:38:05.830] [API] [info] [1398] Server configuration loaded successfully
+[2024-12-15 10:38:05.830] [API] [info] [1398] Starting server on port 8080
+[2024-12-15 17:49:11.808] [API] [info] [1030] Starting Quantitative Finance API server
+[2024-12-15 17:49:11.809] [API] [info] [1030] Server configuration loaded successfully
+[2024-12-15 17:49:11.809] [API] [info] [1030] Starting server on port 8080
+[2024-12-15 17:49:41.677] [API] [info] [1040] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-15 17:49:41.677] [API] [info] [1040] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-15 17:53:29.644] [API] [info] [1330] Starting Quantitative Finance API server
+[2024-12-15 17:53:29.644] [API] [info] [1330] Server configuration loaded successfully
+[2024-12-15 17:53:29.644] [API] [info] [1330] Starting server on port 8080
+[2024-12-15 17:53:50.750] [API] [info] [1337] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-15 17:53:50.750] [API] [info] [1337] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-15 17:53:58.959] [API] [info] [1345] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=false
+[2024-12-15 17:53:58.959] [API] [info] [1345] Black-Scholes calculation completed. Result: 5.573526022256971
+[2024-12-15 17:57:08.683] [API] [info] [1424] Starting Quantitative Finance API server
+[2024-12-15 17:57:08.683] [API] [info] [1424] Server configuration loaded successfully
+[2024-12-15 17:57:08.683] [API] [info] [1424] Starting server on port 8080
+[2024-12-15 17:59:30.361] [API] [info] [1480] Starting Quantitative Finance API server
+[2024-12-15 17:59:30.361] [API] [info] [1480] Server configuration loaded successfully
+[2024-12-15 17:59:30.361] [API] [info] [1480] Starting server on port 8080

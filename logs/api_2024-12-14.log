@@ -1,0 +1,5 @@
+[2024-12-14 21:56:39.923] [API] [info] [10946] Starting Quantitative Finance API server
+[2024-12-14 21:56:39.923] [API] [info] [10946] Server configuration loaded successfully
+[2024-12-14 21:56:39.923] [API] [info] [10946] Starting server on port 8080
+[2024-12-14 21:56:45.048] [API] [info] [10953] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-14 21:56:45.048] [API] [info] [10953] Black-Scholes calculation completed. Result: 10.450583572185565

@@ -5,37 +5,31 @@ namespace quant_fin {
 namespace api {
 
 void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
-                        drogon::FilterCallback&& fcb,
-                        drogon::FilterChainCallback&& fccb) {
-    API_LOG_DEBUG("Starting CORS filter for path: {} method: {}", req->getPath(), req->getMethodString());
-    
-    // Create response for CORS headers
+                          drogon::FilterCallback&& fcb,
+                          drogon::FilterChainCallback&& fccb) {
+    API_LOG_DEBUG("CorsFilter invoked for path: {} with method: {}", req->getPath(), req->getMethodString());
+
+    // Add common CORS headers
     auto resp = drogon::HttpResponse::newHttpResponse();
-    
-    // Handle preflight OPTIONS request
+    resp->addHeader("Access-Control-Allow-Origin", "http://localhost:3000, http://localhost:5173");
+    resp->addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    resp->addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+    resp->addHeader("Access-Control-Allow-Credentials", "true");
+    resp->addHeader("Access-Control-Max-Age", "86400");
+
+    // Handle OPTIONS preflight requests
     if (req->getMethodString() == "OPTIONS") {
-        API_LOG_DEBUG("Processing OPTIONS preflight request");
-        
-        // Essential CORS headers
-        resp->addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        resp->addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        resp->addHeader("Access-Control-Allow-Headers", "Content-Type");
-        
-        // Set 200 OK status explicitly
+        API_LOG_DEBUG("Handling OPTIONS preflight request");
         resp->setStatusCode(drogon::k200OK);
-        resp->setContentTypeCode(drogon::CT_TEXT_PLAIN);
-        
-        // Send the response immediately for OPTIONS
-        fcb(resp);
+        fcb(resp); // Send the response immediately
         return;
     }
 
-    // For non-OPTIONS requests
-    resp->addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-    
-    // Continue with the normal request chain
-    fccb();
+    // Add headers for all non-OPTIONS requests and continue the chain
+    API_LOG_DEBUG("CORS headers added for non-OPTIONS request");
+    fccb(); // Continue the request filter chain
 }
 
 } // namespace api
 } // namespace quant_fin
+
