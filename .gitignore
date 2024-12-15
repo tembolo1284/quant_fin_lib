@@ -1,5 +1,6 @@
 # Folders
 build/
+scripts/server_config.json
 
 # Prerequisites
 *.d

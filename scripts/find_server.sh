@@ -1,19 +1,25 @@
 #!/bin/bash
 
-# Array of potential IP addresses where the server might be running
-declare -a server_ips=(
-    "localhost"
-    "127.0.0.1"
-    "172.18.148.67"  # Your main IP
-    "172.17.0.1"     # Your secondary IP
-    "172.18.148.66"  # Adjacent IP in case of DHCP reassignment
-    "172.18.148.68"  # Adjacent IP in case of DHCP reassignment
-    "172.17.0.2"     # Common Docker container IP
-    "172.17.0.3"     # Common Docker container IP
-)
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CONFIG_FILE="$SCRIPT_DIR/server_config.json"
 
-# The port where your server is running
-PORT=8080
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "Error: jq is required but not installed. Please install it first:"
+    echo "sudo apt-get install jq"
+    exit 1
+fi
+
+# Load configuration
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Configuration file not found at $CONFIG_FILE"
+    exit 1
+fi
+
+# Read configuration
+PORT=$(jq -r '.port' "$CONFIG_FILE")
+TIMEOUT=$(jq -r '.timeout' "$CONFIG_FILE")
 
 # Test data for the Black-Scholes endpoint
 JSON_DATA='{
@@ -28,7 +34,8 @@ JSON_DATA='{
 # Function to check if an IP is reachable
 check_ping() {
     local ip=$1
-    if [[ "$ip" == "localhost" || "$ip" == "127.0.0.1" ]]; then
+    local name=$2
+    if [[ "$ip" == "127.0.0.1" || "$ip" == "localhost" ]]; then
         return 0  # Skip ping for localhost
     fi
     ping -c 1 -W 1 "$ip" >/dev/null 2>&1
@@ -37,29 +44,30 @@ check_ping() {
 
 # Function to test a single server
 test_server() {
-    local ip=$1
-    echo "Testing server at $ip:$PORT..."
+    local name=$1
+    local ip=$2
+    echo "Testing server '$name' at $ip:$PORT..."
     
     # Check if IP is reachable first (skip for localhost)
-    if ! check_ping "$ip"; then
-        echo "✗ Host $ip is not reachable"
+    if ! check_ping "$ip" "$name"; then
+        echo "✗ Server '$name' is not reachable"
         return 1
     fi
     
-    # Use curl with a 2-second timeout
+    # Use curl with timeout
     response=$(curl -s -X POST "http://$ip:$PORT/api/v1/pricing/black-scholes" \
         -H "Content-Type: application/json" \
         -d "$JSON_DATA" \
-        --connect-timeout 2)
+        --connect-timeout "$TIMEOUT")
     
     if [ $? -eq 0 ] && [ ! -z "$response" ]; then
-        echo "✓ Server found and responding at $ip:$PORT"
+        echo "✓ Server '$name' is responding"
         echo "Response: $response"
-        # Save the working IP to a temporary file for future use
-        echo "$ip" > /tmp/last_working_server
+        # Save the working server name to a temporary file
+        echo "$name" > /tmp/last_working_server_name
         return 0
     else
-        echo "✗ No server response at $ip:$PORT"
+        echo "✗ No response from server '$name'"
         return 1
     fi
 }
@@ -70,27 +78,29 @@ echo "Timestamp: $(date)"
 found_server=false
 
 # If we have a last working server, try it first
-if [ -f /tmp/last_working_server ]; then
-    last_ip=$(cat /tmp/last_working_server)
-    echo "Trying last known working server at $last_ip first..."
-    if test_server "$last_ip"; then
+if [ -f /tmp/last_working_server_name ]; then
+    last_name=$(cat /tmp/last_working_server_name)
+    last_ip=$(jq -r ".servers.\"$last_name\"" "$CONFIG_FILE")
+    echo "Trying last known working server '$last_name'..."
+    if test_server "$last_name" "$last_ip"; then
         found_server=true
-        echo "Successfully connected to last known server at $last_ip:$PORT"
+        echo "Successfully connected to last known server '$last_name'"
         exit 0
     fi
-    echo "Last known server not responding, trying other addresses..."
+    echo "Last known server not responding, trying other servers..."
 fi
 
-for ip in "${server_ips[@]}"; do
-    if test_server "$ip"; then
+# Try each server in the configuration
+jq -r '.servers | to_entries[] | "\(.key)|\(.value)"' "$CONFIG_FILE" | while IFS='|' read -r name ip; do
+    if test_server "$name" "$ip"; then
         found_server=true
-        echo "Found active server at $ip:$PORT"
+        echo "Found active server: '$name'"
         break
     fi
 done
 
 if [ "$found_server" = false ]; then
-    echo "No active servers found on any of the specified addresses."
+    echo "No active servers found."
     echo "Please ensure that:"
     echo "1. The server is running"
     echo "2. The server is configured to listen on external interfaces (0.0.0.0)"
