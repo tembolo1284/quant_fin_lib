@@ -7,10 +7,6 @@
 
 int main() {
     try {
-        // Get the executable's directory
-        std::filesystem::path exe_path = std::filesystem::canonical("/proc/self/exe").parent_path();
-        std::filesystem::current_path(exe_path);
-        
         // Create logs directory if it doesn't exist
         std::filesystem::create_directories("logs");
         
@@ -19,15 +15,21 @@ int main() {
         
         API_LOG_INFO("Starting Quantitative Finance API server");
         API_LOG_DEBUG("Initializing server configuration");
+
+        // Configure server
+        auto &app = drogon::app();
         
-        // Load configuration
-        drogon::app().loadConfigFile("config.json");
-
+        // Register CORS filter for all API routes
+        app.registerFilter(std::make_shared<quant_fin::api::CorsFilter>("/api/v1/*"));
+        
+        // Load config and start server
+        app.loadConfigFile("config.json");
+        app.addListener("0.0.0.0", 8080);
+        
         API_LOG_INFO("Server configuration loaded successfully");
-        API_LOG_DEBUG("Starting server...");
+        API_LOG_INFO("Starting server on port 8080");
 
-        // Run the server
-        drogon::app().run();
+        app.run();
 
     } catch (const std::exception &e) {
         API_LOG_CRITICAL("Fatal error during server startup: {}", e.what());
