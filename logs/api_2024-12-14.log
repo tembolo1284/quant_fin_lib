@@ -3,3 +3,14 @@
 [2024-12-14 20:32:06.597] [API] [info] [10367] Starting Quantitative Finance API server
 [2024-12-14 20:32:06.597] [API] [info] [10367] Server configuration loaded successfully
 [2024-12-14 20:32:06.597] [API] [info] [10367] Starting server on port 8080
+[2024-12-14 21:39:18.125] [API] [info] [10370] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-14 21:39:18.125] [API] [info] [10370] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-14 21:43:16.955] [API] [info] [10370] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-14 21:43:16.955] [API] [info] [10370] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-14 21:48:04.982] [API] [info] [10621] Starting Quantitative Finance API server
+[2024-12-14 21:48:04.983] [API] [info] [10621] Server configuration loaded successfully
+[2024-12-14 21:48:04.983] [API] [info] [10621] Starting server on port 8080
+[2024-12-14 21:48:14.305] [API] [info] [10625] Calculating Black-Scholes price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true
+[2024-12-14 21:48:14.305] [API] [info] [10625] Black-Scholes calculation completed. Result: 10.450583572185565
+[2024-12-14 21:48:52.611] [API] [info] [10630] Calculating Binomial Tree price with parameters: spot=100, strike=100, r=0.05, t=1, vol=0.2, is_call=true, steps=100
+[2024-12-14 21:48:52.611] [API] [info] [10630] Binomial Tree calculation completed. Result: 10.430611662249113
