@@ -1,0 +1,5 @@
+[2024-12-14 20:28:37.636] [API] [info] [10111] Starting Quantitative Finance API server
+[2024-12-14 20:28:37.637] [API] [critical] [10111] Fatal error during server startup: Config file config.json not found!
+[2024-12-14 20:32:06.597] [API] [info] [10367] Starting Quantitative Finance API server
+[2024-12-14 20:32:06.597] [API] [info] [10367] Server configuration loaded successfully
+[2024-12-14 20:32:06.597] [API] [info] [10367] Starting server on port 8080

@@ -18,17 +18,12 @@ int main() {
         // Configure server
         auto& app = drogon::app();
         
-        // Load config and setup
-        app.loadConfigFile("config.json");
-        app.addListener("0.0.0.0", 8080);
+        // Load config from the api directory
+        app.loadConfigFile("api/config.json");
 
-        // Register CORS filter for all paths using path patterns
-        drogon::app().registerPreHandlingAdvice(
-            [](const drogon::HttpRequestPtr& req, drogon::AdviceCallback&& acb, drogon::AdviceChainCallback&& accb) {
-                auto corsFilter = std::make_shared<quant_fin::api::CorsFilter>();
-                corsFilter->doFilter(req, std::move(acb), std::move(accb));
-            }
-        );
+        // Create the CORS filter
+        auto corsFilter = std::make_shared<quant_fin::api::CorsFilter>();
+        app.registerFilter(corsFilter);
 
         API_LOG_INFO("Server configuration loaded successfully");
         API_LOG_INFO("Starting server on port 8080");
